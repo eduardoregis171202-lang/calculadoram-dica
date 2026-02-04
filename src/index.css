@@ -2,134 +2,139 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Medical Safety Calculator - Clean Medical Design System */
+/* SafeMed - Medical Calculator Design System - Colorful Green & Blue Theme */
 
 @layer base {
   :root {
-    /* Clean Medical Palette */
-    --background: 210 20% 98%;
-    --foreground: 215 25% 15%;
+    /* Vibrant Medical Theme with Greens and Blues */
+    --background: 165 30% 97%;
+    --foreground: 200 50% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 200 50% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 200 50% 15%;
 
-    /* Primary - Medical Blue */
-    --primary: 205 85% 45%;
+    /* Primary - Teal/Cyan */
+    --primary: 175 70% 40%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Soft Gray */
-    --secondary: 210 15% 93%;
-    --secondary-foreground: 215 25% 25%;
+    /* Secondary - Soft Green */
+    --secondary: 150 40% 90%;
+    --secondary-foreground: 160 50% 25%;
 
-    /* Muted - Light Gray */
-    --muted: 210 15% 95%;
-    --muted-foreground: 215 15% 45%;
+    /* Muted - Light Teal */
+    --muted: 170 30% 92%;
+    --muted-foreground: 180 20% 40%;
 
-    /* Accent - Teal Medical */
-    --accent: 175 60% 45%;
+    /* Accent - Vibrant Blue */
+    --accent: 200 80% 50%;
     --accent-foreground: 0 0% 100%;
 
     /* Destructive - Alert Red */
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Success - Medical Green */
-    --success: 145 65% 42%;
+    /* Success - Emerald Green */
+    --success: 155 70% 45%;
     --success-foreground: 0 0% 100%;
 
-    /* Warning - Caution Orange */
+    /* Warning - Amber */
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    /* Info - Information Blue */
-    --info: 200 85% 55%;
+    /* Info - Sky Blue */
+    --info: 200 90% 55%;
     --info-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
-    --input: 214 20% 88%;
-    --ring: 205 85% 45%;
+    --border: 170 25% 85%;
+    --input: 170 25% 85%;
+    --ring: 175 70% 40%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 210 20% 98%;
-    --sidebar-foreground: 215 25% 25%;
-    --sidebar-primary: 205 85% 45%;
+    --sidebar-background: 170 35% 95%;
+    --sidebar-foreground: 180 30% 25%;
+    --sidebar-primary: 175 70% 40%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 15% 93%;
-    --sidebar-accent-foreground: 215 25% 25%;
-    --sidebar-border: 214 20% 88%;
-    --sidebar-ring: 205 85% 45%;
+    --sidebar-accent: 160 40% 88%;
+    --sidebar-accent-foreground: 170 40% 25%;
+    --sidebar-border: 170 25% 85%;
+    --sidebar-ring: 175 70% 40%;
 
-    /* Calculator Category Colors */
-    --calc-drip: 205 85% 45%;
-    --calc-dilution: 280 65% 55%;
-    --calc-hydro: 175 60% 45%;
-    --calc-imc: 145 65% 42%;
-    --calc-oxygen: 200 85% 55%;
+    /* Calculator Category Colors - More vibrant */
+    --calc-drip: 200 80% 50%;
+    --calc-dilution: 270 65% 55%;
+    --calc-hydro: 175 70% 45%;
+    --calc-imc: 155 70% 45%;
+    --calc-oxygen: 195 85% 50%;
     --calc-insulin: 340 75% 55%;
     --calc-heparin: 15 85% 55%;
-    --calc-dpp: 320 70% 55%;
+    --calc-dpp: 310 70% 55%;
     --calc-glasgow: 0 72% 51%;
+
+    /* Gradient tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(175 70% 40%), hsl(200 80% 50%));
+    --gradient-success: linear-gradient(135deg, hsl(155 70% 45%), hsl(175 70% 45%));
+    --gradient-accent: linear-gradient(135deg, hsl(200 80% 50%), hsl(220 75% 55%));
   }
 
   .dark {
-    --background: 215 25% 10%;
-    --foreground: 210 20% 95%;
+    --background: 200 40% 8%;
+    --foreground: 170 30% 95%;
 
-    --card: 215 25% 13%;
-    --card-foreground: 210 20% 95%;
+    --card: 200 35% 12%;
+    --card-foreground: 170 30% 95%;
 
-    --popover: 215 25% 13%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 200 35% 12%;
+    --popover-foreground: 170 30% 95%;
 
-    --primary: 205 85% 55%;
-    --primary-foreground: 215 25% 10%;
+    --primary: 175 65% 50%;
+    --primary-foreground: 200 40% 8%;
 
-    --secondary: 215 20% 20%;
-    --secondary-foreground: 210 20% 90%;
+    --secondary: 180 30% 18%;
+    --secondary-foreground: 170 30% 90%;
 
-    --muted: 215 20% 18%;
-    --muted-foreground: 215 15% 60%;
+    --muted: 190 25% 16%;
+    --muted-foreground: 175 20% 60%;
 
-    --accent: 175 60% 50%;
-    --accent-foreground: 215 25% 10%;
+    --accent: 200 75% 55%;
+    --accent-foreground: 200 40% 8%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 145 60% 45%;
-    --success-foreground: 215 25% 10%;
+    --success: 155 65% 48%;
+    --success-foreground: 200 40% 8%;
 
     --warning: 38 90% 55%;
-    --warning-foreground: 215 25% 10%;
+    --warning-foreground: 200 40% 8%;
 
     --info: 200 80% 60%;
-    --info-foreground: 215 25% 10%;
+    --info-foreground: 200 40% 8%;
 
-    --border: 215 20% 22%;
-    --input: 215 20% 22%;
-    --ring: 205 85% 55%;
+    --border: 190 25% 22%;
+    --input: 190 25% 22%;
+    --ring: 175 65% 50%;
 
-    --sidebar-background: 215 25% 12%;
-    --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 205 85% 55%;
-    --sidebar-primary-foreground: 215 25% 10%;
-    --sidebar-accent: 215 20% 18%;
-    --sidebar-accent-foreground: 210 20% 90%;
-    --sidebar-border: 215 20% 22%;
-    --sidebar-ring: 205 85% 55%;
+    --sidebar-background: 200 35% 10%;
+    --sidebar-foreground: 170 30% 90%;
+    --sidebar-primary: 175 65% 50%;
+    --sidebar-primary-foreground: 200 40% 8%;
+    --sidebar-accent: 190 25% 16%;
+    --sidebar-accent-foreground: 170 30% 90%;
+    --sidebar-border: 190 25% 22%;
+    --sidebar-ring: 175 65% 50%;
 
-    --calc-drip: 205 85% 55%;
-    --calc-dilution: 280 60% 60%;
-    --calc-hydro: 175 55% 50%;
-    --calc-imc: 145 60% 48%;
-    --calc-oxygen: 200 80% 60%;
+    --calc-drip: 200 75% 55%;
+    --calc-dilution: 270 60% 60%;
+    --calc-hydro: 175 65% 50%;
+    --calc-imc: 155 65% 50%;
+    --calc-oxygen: 195 80% 55%;
     --calc-insulin: 340 70% 60%;
     --calc-heparin: 15 80% 60%;
-    --calc-dpp: 320 65% 60%;
+    --calc-dpp: 310 65% 60%;
     --calc-glasgow: 0 65% 55%;
   }
 }
@@ -189,6 +194,21 @@
   .nav-link.active {
     @apply bg-primary text-primary-foreground;
   }
+
+  .gradient-bg {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl;
+  }
 }
 
 /* Custom scrollbar for webkit browsers */
@@ -202,7 +222,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50;
+  @apply bg-primary/30 rounded-full hover:bg-primary/50;
 }
 
 /* Print styles for PDF generation */
@@ -213,5 +233,14 @@
   
   .no-print {
     display: none !important;
+  }
+}
+
+/* PWA safe areas for notch devices */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
