@@ -11,7 +11,6 @@ interface IMCResult {
   imc: number;
   classification: string;
   colorClass: string;
-  bodySurface: number;
 }
 
 const IMCCalculatorPage = () => {
@@ -41,10 +40,6 @@ const IMCCalculatorPage = () => {
     
     // IMC = peso (kg) / altura² (m)
     const imc = weightNum / (heightM * heightM);
-    
-    // Superfície Corporal - Fórmula de Mosteller
-    // SC = √((peso × altura) / 3600)
-    const bodySurface = Math.sqrt((weightNum * heightCm) / 3600);
 
     const { classification, colorClass } = getIMCClassification(imc);
 
@@ -52,17 +47,13 @@ const IMCCalculatorPage = () => {
       imc: Math.round(imc * 100) / 100,
       classification,
       colorClass,
-      bodySurface: Math.round(bodySurface * 100) / 100,
     });
 
     addEntry(
       'imc',
-      'IMC e Superfície Corporal',
+      'Calculadora de IMC',
       { weight: weightNum, height: heightCm },
-      {
-        'IMC': `${Math.round(imc * 100) / 100} kg/m² (${classification})`,
-        'Superfície Corporal': `${Math.round(bodySurface * 100) / 100} m²`,
-      }
+      `IMC: ${Math.round(imc * 100) / 100} kg/m² (${classification})`
     );
   };
 
@@ -75,10 +66,10 @@ const IMCCalculatorPage = () => {
   const isValid = weight && height && parseFloat(weight) > 0 && parseFloat(height) > 0;
 
   return (
-    <MainLayout title="IMC/SC" showBackButton>
+    <MainLayout title="IMC" showBackButton>
       <CalculatorLayout
-        title="IMC e Superfície Corporal"
-        description="Índice de Massa Corporal e Superfície Corporal para avaliação e ajustes de doses"
+        title="Calculadora de IMC"
+        description="Índice de Massa Corporal para avaliação nutricional"
         icon={Scale}
         colorClass="text-calc-imc"
         onCalculate={calculate}
@@ -89,33 +80,64 @@ const IMCCalculatorPage = () => {
             <div className="space-y-6">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-1">Índice de Massa Corporal</p>
-                <p className="text-3xl font-bold text-primary">{result.imc} <span className="text-lg">kg/m²</span></p>
-                <p className={cn('text-lg font-medium mt-2', result.colorClass)}>
+                <p className="text-4xl font-bold text-primary">{result.imc}</p>
+                <p className="text-lg text-muted-foreground">kg/m²</p>
+                <p className={cn('text-xl font-semibold mt-3', result.colorClass)}>
                   {result.classification}
                 </p>
               </div>
-              
-              <div className="border-t pt-4 text-center">
-                <p className="text-sm text-muted-foreground mb-1">Superfície Corporal (Mosteller)</p>
-                <p className="text-3xl font-bold text-accent">{result.bodySurface} <span className="text-lg">m²</span></p>
-              </div>
 
               {/* IMC Scale Visual */}
-              <div className="mt-4">
-                <p className="text-xs text-muted-foreground mb-2 text-center">Escala de IMC</p>
-                <div className="h-3 rounded-full overflow-hidden flex">
+              <div className="mt-6">
+                <p className="text-xs text-muted-foreground mb-2 text-center">Escala de Classificação</p>
+                <div className="h-4 rounded-full overflow-hidden flex shadow-inner">
                   <div className="flex-1 bg-info" title="Baixo peso (<18.5)" />
                   <div className="flex-1 bg-success" title="Normal (18.5-24.9)" />
                   <div className="flex-1 bg-warning" title="Sobrepeso (25-29.9)" />
-                  <div className="flex-1 bg-destructive/70" title="Obesidade I (30-34.9)" />
+                  <div className="flex-1 bg-warning/70" title="Obesidade I (30-34.9)" />
                   <div className="flex-1 bg-destructive" title="Obesidade II-III (≥35)" />
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>18.5</span>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1 px-1">
+                  <span>&lt;18.5</span>
                   <span>25</span>
                   <span>30</span>
                   <span>35</span>
                   <span>40+</span>
+                </div>
+              </div>
+
+              {/* Classification Table */}
+              <div className="bg-muted/50 rounded-lg p-4 mt-4">
+                <p className="text-sm font-medium mb-3 text-center">Classificação OMS</p>
+                <div className="grid gap-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-info" />
+                      Baixo peso
+                    </span>
+                    <span className="text-muted-foreground">&lt; 18.5</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-success" />
+                      Peso normal
+                    </span>
+                    <span className="text-muted-foreground">18.5 - 24.9</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-warning" />
+                      Sobrepeso
+                    </span>
+                    <span className="text-muted-foreground">25 - 29.9</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-destructive" />
+                      Obesidade
+                    </span>
+                    <span className="text-muted-foreground">≥ 30</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -124,12 +146,11 @@ const IMCCalculatorPage = () => {
         warnings={[
           'O IMC é uma medida de triagem e não substitui avaliação clínica ou nutricional completa.',
           'Não deve ser usado isoladamente para diagnóstico de obesidade ou desnutrição.',
-          'Para ajuste de doses de medicamentos, consulte sempre o protocolo específico.',
+          'Atletas e idosos podem ter interpretações diferentes do IMC.',
         ]}
         info={[
-          'Fórmula IMC: Peso (kg) ÷ Altura² (m)',
-          'Fórmula SC (Mosteller): √((Peso × Altura) ÷ 3600)',
-          'A superfície corporal é usada para ajuste de doses de quimioterápicos e outros medicamentos.',
+          'Fórmula: IMC = Peso (kg) ÷ Altura² (m)',
+          'Classificação baseada nas diretrizes da Organização Mundial da Saúde (OMS).',
         ]}
       >
         {/* Weight Input */}
