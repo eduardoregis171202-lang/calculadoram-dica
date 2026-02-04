@@ -5,7 +5,6 @@ import {
   History, 
   FileText, 
   Menu, 
-  X,
   ChevronLeft,
   Shield
 } from 'lucide-react';
@@ -33,16 +32,16 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
   ];
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-gradient-to-b from-primary/5 to-background">
       {/* Logo */}
-      <div className="p-4 border-b">
+      <div className="p-4 border-b bg-gradient-to-r from-primary to-accent">
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-            <Shield className="w-6 h-6 text-primary-foreground" />
+          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+            <Shield className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-foreground">SafeMed</h1>
-            <p className="text-xs text-muted-foreground">Calculadoras Médicas</p>
+            <h1 className="font-bold text-white">SafeMed</h1>
+            <p className="text-xs text-white/80">Calculadoras Médicas</p>
           </div>
         </Link>
       </div>
@@ -90,7 +89,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
       </ScrollArea>
 
       {/* Footer */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t bg-muted/30">
         <p className="text-xs text-muted-foreground text-center">
           © 2024 SafeMed
         </p>
@@ -99,16 +98,16 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background safe-area-inset">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:border-r lg:bg-card">
         <SidebarContent />
       </aside>
 
       {/* Mobile Header */}
-      <header className="lg:hidden sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-card px-4">
+      <header className="lg:hidden sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-gradient-to-r from-primary to-accent px-4">
         {showBackButton ? (
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild className="text-white hover:bg-white/20">
             <Link to="/">
               <ChevronLeft className="h-5 w-5" />
             </Link>
@@ -116,7 +115,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
         ) : (
           <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
@@ -128,11 +127,11 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
         
         <div className="flex-1">
           {title ? (
-            <h1 className="font-semibold text-foreground truncate">{title}</h1>
+            <h1 className="font-semibold text-white truncate">{title}</h1>
           ) : (
             <Link to="/" className="flex items-center gap-2">
-              <Shield className="w-6 h-6 text-primary" />
-              <span className="font-bold">SafeMed</span>
+              <Shield className="w-6 h-6 text-white" />
+              <span className="font-bold text-white">SafeMed</span>
             </Link>
           )}
         </div>
