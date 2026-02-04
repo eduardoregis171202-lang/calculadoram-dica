@@ -59,9 +59,9 @@ export const calculators: CalculatorInfo[] = [
   },
   {
     id: 'imc',
-    name: 'IMC e Superfície Corporal',
-    shortName: 'IMC/SC',
-    description: 'Índice de Massa Corporal e Superfície Corporal para ajustes de doses',
+    name: 'Calculadora de IMC',
+    shortName: 'IMC',
+    description: 'Índice de Massa Corporal para avaliação nutricional',
     icon: Scale,
     colorClass: 'text-calc-imc',
     bgColorClass: 'bg-calc-imc/10',
