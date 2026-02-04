@@ -2,95 +2,135 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Medical Safety Calculator - Clean Medical Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Clean Medical Palette */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Medical Blue */
+    --primary: 205 85% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft Gray */
+    --secondary: 210 15% 93%;
+    --secondary-foreground: 215 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted - Light Gray */
+    --muted: 210 15% 95%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Teal Medical */
+    --accent: 175 60% 45%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive - Alert Red */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Success - Medical Green */
+    --success: 145 65% 42%;
+    --success-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* Warning - Caution Orange */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 98%;
+    /* Info - Information Blue */
+    --info: 200 85% 55%;
+    --info-foreground: 0 0% 100%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 205 85% 45%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    --radius: 0.75rem;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 215 25% 25%;
+    --sidebar-primary: 205 85% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 15% 93%;
+    --sidebar-accent-foreground: 215 25% 25%;
+    --sidebar-border: 214 20% 88%;
+    --sidebar-ring: 205 85% 45%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Calculator Category Colors */
+    --calc-drip: 205 85% 45%;
+    --calc-dilution: 280 65% 55%;
+    --calc-hydro: 175 60% 45%;
+    --calc-imc: 145 65% 42%;
+    --calc-oxygen: 200 85% 55%;
+    --calc-insulin: 340 75% 55%;
+    --calc-heparin: 15 85% 55%;
+    --calc-dpp: 320 70% 55%;
+    --calc-glasgow: 0 72% 51%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 215 25% 10%;
+    --foreground: 210 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 215 25% 13%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 215 25% 13%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 205 85% 55%;
+    --primary-foreground: 215 25% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 215 20% 20%;
+    --secondary-foreground: 210 20% 90%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 215 20% 18%;
+    --muted-foreground: 215 15% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 175 60% 50%;
+    --accent-foreground: 215 25% 10%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --success: 145 60% 45%;
+    --success-foreground: 215 25% 10%;
+
+    --warning: 38 90% 55%;
+    --warning-foreground: 215 25% 10%;
+
+    --info: 200 80% 60%;
+    --info-foreground: 215 25% 10%;
+
+    --border: 215 20% 22%;
+    --input: 215 20% 22%;
+    --ring: 205 85% 55%;
+
+    --sidebar-background: 215 25% 12%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 205 85% 55%;
+    --sidebar-primary-foreground: 215 25% 10%;
+    --sidebar-accent: 215 20% 18%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 215 20% 22%;
+    --sidebar-ring: 205 85% 55%;
+
+    --calc-drip: 205 85% 55%;
+    --calc-dilution: 280 60% 60%;
+    --calc-hydro: 175 55% 50%;
+    --calc-imc: 145 60% 48%;
+    --calc-oxygen: 200 80% 60%;
+    --calc-insulin: 340 70% 60%;
+    --calc-heparin: 15 80% 60%;
+    --calc-dpp: 320 65% 60%;
+    --calc-glasgow: 0 65% 55%;
   }
 }
 
@@ -100,6 +140,78 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .calculator-card {
+    @apply bg-card rounded-xl border shadow-sm hover:shadow-md transition-all duration-200;
+  }
+
+  .result-display {
+    @apply bg-primary/10 border-2 border-primary/20 rounded-xl p-4 text-center;
+  }
+
+  .warning-box {
+    @apply bg-warning/10 border border-warning/30 rounded-lg p-4 text-sm;
+  }
+
+  .info-box {
+    @apply bg-info/10 border border-info/30 rounded-lg p-4 text-sm;
+  }
+
+  .success-box {
+    @apply bg-success/10 border border-success/30 rounded-lg p-4 text-sm;
+  }
+
+  .danger-box {
+    @apply bg-destructive/10 border border-destructive/30 rounded-lg p-4 text-sm;
+  }
+
+  .input-group {
+    @apply space-y-2;
+  }
+
+  .input-group label {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors;
+  }
+
+  .nav-link.active {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50;
+}
+
+/* Print styles for PDF generation */
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+  
+  .no-print {
+    display: none !important;
   }
 }
