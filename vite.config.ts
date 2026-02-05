@@ -6,6 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: '/calculadoram-dica/',
   server: {
     host: "::",
     port: 8080,
@@ -27,17 +28,17 @@ export default defineConfig(({ mode }) => ({
         background_color: "#f0fdf9",
         display: "standalone",
         orientation: "portrait",
-        scope: "/",
-        start_url: "/",
+        scope: "/calculadoram-dica/",
+        start_url: "/calculadoram-dica/",
         icons: [
           {
-            src: "/icons/icon-192x192.png",
+            src: "/calculadoram-dica/icons/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "any maskable",
           },
           {
-            src: "/icons/icon-512x512.png",
+            src: "/calculadoram-dica/icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
