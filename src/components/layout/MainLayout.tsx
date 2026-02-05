@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
   History, 
-  FileText, 
   Menu, 
   ChevronLeft,
   Shield
@@ -29,7 +28,6 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
   const navItems = [
     { to: '/', icon: Home, label: 'Início' },
     { to: '/historico', icon: History, label: 'Histórico' },
-    { to: '/ebooks', icon: FileText, label: 'eBooks' },
   ];
 
   const SidebarContent = () => (
