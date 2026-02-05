@@ -14,6 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -90,9 +91,12 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
 
       {/* Footer */}
       <div className="p-4 border-t bg-muted/30">
+        <ThemeToggle />
+        <div className="mt-3 pt-3 border-t">
         <p className="text-xs text-muted-foreground text-center">
           © 2024 SafeMed
         </p>
+        </div>
       </div>
     </div>
   );
