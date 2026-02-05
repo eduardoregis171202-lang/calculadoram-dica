@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { calculators, getCalculatorsByCategory } from '@/lib/calculatorTypes';
 import { cn } from '@/lib/utils';
-import { Shield, Sparkles, Download, Smartphone } from 'lucide-react';
+import { Shield, Sparkles, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 
@@ -70,18 +70,6 @@ const Index = () => {
             </Button>
           )}
         </div>
-
-        {/* Install Banner for iOS */}
-        <Card className="border-primary/20 bg-primary/5 mb-6">
-          <CardContent className="py-4">
-            <div className="flex items-center gap-3">
-              <Smartphone className="w-5 h-5 text-primary" />
-              <p className="text-sm text-foreground">
-                <strong>Instale no seu celular:</strong> Toque em "Compartilhar" → "Adicionar à Tela Inicial" para usar offline!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Essential Calculators */}
