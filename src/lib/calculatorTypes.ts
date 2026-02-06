@@ -115,7 +115,7 @@ export const calculators: CalculatorInfo[] = [
   {
     id: 'glasgow',
     name: 'Escala de Glasgow',
-    shortName: 'Glasgow',
+    shortName: 'Glasgow Interativo',
     description: 'Checklist interativo para pontuar níveis de consciência',
     icon: Brain,
     colorClass: 'text-calc-glasgow',
