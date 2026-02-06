@@ -25,21 +25,35 @@ const FluidBalanceCalculatorPage = () => {
   const { addEntry } = useCalculatorHistory();
 
   const inputPresets = [
-    'Soro Fisiológico',
-    'Soro Glicosado',
+    'Soro Fisiológico 0,9%',
+    'Soro Glicosado 5%',
+    'Ringer Lactato',
     'Medicação EV',
     'Dieta Enteral',
+    'Dieta Parenteral (NPT)',
     'Água VO',
+    'Suco/Chá VO',
     'Hemoderivados',
+    'Plasma',
+    'Albumina',
+    'Lavagem Gástrica',
   ];
 
   const outputPresets = [
     'Diurese',
+    'Diurese (SVD)',
     'Vômito',
-    'Drenagem',
+    'Drenagem Torácica',
+    'Drenagem Abdominal',
+    'Dreno de Penrose',
+    'Sonda Nasogástrica',
+    'Aspiração Traqueal',
     'Fezes',
-    'Aspiração gástrica',
+    'Diarreia',
+    'Ostomia',
     'Sangramento',
+    'Sudorese Intensa',
+    'Ferida Operatória',
   ];
 
   const addInput = () => {
