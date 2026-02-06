@@ -104,7 +104,7 @@ export const calculators: CalculatorInfo[] = [
   {
     id: 'dpp',
     name: 'Data Provável de Parto',
-    shortName: 'DPP',
+    shortName: 'DPP Gestacional',
     description: 'Cálculo da DPP e idade gestacional baseado na DUM',
     icon: Baby,
     colorClass: 'text-calc-dpp',
@@ -115,7 +115,7 @@ export const calculators: CalculatorInfo[] = [
   {
     id: 'glasgow',
     name: 'Escala de Glasgow',
-    shortName: 'Glasgow',
+    shortName: 'Glasgow Interativo',
     description: 'Checklist interativo para pontuar níveis de consciência',
     icon: Brain,
     colorClass: 'text-calc-glasgow',
