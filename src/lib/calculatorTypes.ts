@@ -104,7 +104,7 @@ export const calculators: CalculatorInfo[] = [
   {
     id: 'dpp',
     name: 'Data Provável de Parto',
-    shortName: 'DPP',
+    shortName: 'DPP Gestacional',
     description: 'Cálculo da DPP e idade gestacional baseado na DUM',
     icon: Baby,
     colorClass: 'text-calc-dpp',
