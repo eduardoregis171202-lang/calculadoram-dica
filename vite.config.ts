@@ -21,9 +21,9 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "robots.txt"],
       manifest: {
-        name: "SafeMed - Calculadoras Médicas",
+        name: "SafeMed - Ferramentas Clínicas",
         short_name: "SafeMed",
-        description: "Calculadoras de segurança medicamentosa para profissionais de enfermagem",
+        description: "Calculadoras e ferramentas clínicas para profissionais de enfermagem",
         theme_color: "#14b8a6",
         background_color: "#f0fdf9",
         display: "standalone",

@@ -50,13 +50,13 @@ const Index = () => {
                 SafeMed
               </h1>
               <p className="text-white/80">
-                Calculadoras de Segurança Medicamentosa
+                Ferramentas Clínicas para Enfermagem
               </p>
             </div>
           </div>
           <p className="text-white/90 max-w-xl mb-4">
-            Ferramentas precisas para auxiliar profissionais de enfermagem em cálculos 
-            essenciais do dia a dia, garantindo segurança na administração de medicamentos.
+            Calculadoras e ferramentas precisas para auxiliar profissionais de enfermagem 
+            em cálculos e avaliações clínicas essenciais do dia a dia.
           </p>
           
           {isInstallable && (
