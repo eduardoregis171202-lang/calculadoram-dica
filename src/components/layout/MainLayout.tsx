@@ -92,7 +92,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
         <ThemeToggle />
         <div className="mt-3 pt-3 border-t">
         <p className="text-xs text-muted-foreground text-center">
-          © 2024 SafeMed
+          © 2024 SmartNurse
         </p>
         </div>
       </div>
