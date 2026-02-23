@@ -47,7 +47,7 @@ const Index = () => {
             </div>
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold">
-                SafeMed
+                SmartNurse
               </h1>
               <p className="text-white/80">
                 Ferramentas Clínicas para Enfermagem

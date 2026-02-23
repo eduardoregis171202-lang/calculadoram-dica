@@ -133,7 +133,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
           ) : (
             <Link to="/" className="flex items-center gap-2">
               <Shield className="w-6 h-6 text-white" />
-              <span className="font-bold text-white">SafeMed</span>
+              <span className="font-bold text-white">SmartNurse</span>
             </Link>
           )}
         </div>
