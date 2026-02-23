@@ -39,7 +39,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
             <Shield className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-white">SafeMed</h1>
+            <h1 className="font-bold text-white">SmartNurse</h1>
             <p className="text-xs text-white/80">Calculadoras Médicas</p>
           </div>
         </Link>
@@ -92,7 +92,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
         <ThemeToggle />
         <div className="mt-3 pt-3 border-t">
         <p className="text-xs text-muted-foreground text-center">
-          © 2024 SafeMed
+          © 2024 SmartNurse
         </p>
         </div>
       </div>
@@ -133,7 +133,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
           ) : (
             <Link to="/" className="flex items-center gap-2">
               <Shield className="w-6 h-6 text-white" />
-              <span className="font-bold text-white">SafeMed</span>
+              <span className="font-bold text-white">SmartNurse</span>
             </Link>
           )}
         </div>
