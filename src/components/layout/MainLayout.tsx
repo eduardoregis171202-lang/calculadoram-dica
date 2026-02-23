@@ -39,7 +39,7 @@ export function MainLayout({ children, title, showBackButton = false }: MainLayo
             <Shield className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-white">SafeMed</h1>
+            <h1 className="font-bold text-white">SmartNurse</h1>
             <p className="text-xs text-white/80">Calculadoras Médicas</p>
           </div>
         </Link>
