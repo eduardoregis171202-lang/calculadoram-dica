@@ -127,16 +127,37 @@ const DripCalculatorPage = () => {
 
         {/* Time Input */}
         <div className="space-y-2">
-          <Label htmlFor="time">Tempo de Infusão (horas)</Label>
-          <Input
-            id="time"
-            type="number"
-            placeholder="Ex: 8"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            min="0"
-            step="0.5"
-          />
+          <Label htmlFor="time">Tempo de Infusão</Label>
+          <div className="flex gap-2">
+            <Input
+              id="time"
+              type="number"
+              placeholder={timeUnit === 'hours' ? 'Ex: 8' : 'Ex: 120'}
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              min="0"
+              step={timeUnit === 'hours' ? '0.5' : '1'}
+              className="flex-1"
+            />
+            <RadioGroup
+              value={timeUnit}
+              onValueChange={(value) => setTimeUnit(value as TimeUnit)}
+              className="flex gap-2"
+            >
+              <div className="flex items-center space-x-1">
+                <RadioGroupItem value="hours" id="hours" />
+                <Label htmlFor="hours" className="font-normal cursor-pointer text-sm">
+                  Horas
+                </Label>
+              </div>
+              <div className="flex items-center space-x-1">
+                <RadioGroupItem value="minutes" id="minutes" />
+                <Label htmlFor="minutes" className="font-normal cursor-pointer text-sm">
+                  Minutos
+                </Label>
+              </div>
+            </RadioGroup>
+          </div>
           <p className="text-xs text-muted-foreground">
             Tempo prescrito pelo médico para a infusão completa
           </p>
