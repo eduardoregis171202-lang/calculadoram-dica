@@ -41,7 +41,7 @@ const DripCalculatorPage = () => {
     addEntry(
       'drip',
       'Calculadora de Gotejamento',
-      { volume: volumeNum, time: timeNum, equipmentType },
+      { volume: volumeNum, time: timeNum, timeUnit, equipmentType },
       `${roundedDrops} ${equipmentType === 'macro' ? 'gts/min' : 'mcgts/min'}`
     );
   };
