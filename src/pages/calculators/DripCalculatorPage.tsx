@@ -8,10 +8,12 @@ import { Droplets } from 'lucide-react';
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory';
 
 type EquipmentType = 'macro' | 'micro';
+type TimeUnit = 'hours' | 'minutes';
 
 const DripCalculatorPage = () => {
   const [volume, setVolume] = useState('');
   const [time, setTime] = useState('');
+  const [timeUnit, setTimeUnit] = useState<TimeUnit>('hours');
   const [equipmentType, setEquipmentType] = useState<EquipmentType>('macro');
   const [result, setResult] = useState<number | null>(null);
   const { addEntry } = useCalculatorHistory();
@@ -24,16 +26,15 @@ const DripCalculatorPage = () => {
       return;
     }
 
+    // Converter para horas se estiver em minutos
+    const timeInHours = timeUnit === 'minutes' ? timeNum / 60 : timeNum;
+
     let drops: number;
     if (equipmentType === 'macro') {
-      // Macrogotas: gts/min = Volume / (3 × Tempo em horas)
-      drops = volumeNum / (3 * timeNum);
+      drops = volumeNum / (3 * timeInHours);
     } else {
-      // Microgotas: mcgts/min = Volume / Tempo em horas
-      // Ou: mcgts/min = Volume × 60 / (Tempo em horas × 60) = Volume / Tempo
-      drops = volumeNum / timeNum;
+      drops = volumeNum / timeInHours;
     }
-
     const roundedDrops = Math.round(drops * 10) / 10;
     setResult(roundedDrops);
 
