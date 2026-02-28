@@ -95,7 +95,7 @@ const DilutionCalculatorPage = () => {
     <MainLayout title="Diluição" showBackButton>
       <CalculatorLayout
         title="Conversor de Diluição"
-        description="Assistente para rediluição de medicamentos em pó"
+        description="Assistente para a diluição de medicamentos"
         icon={FlaskConical}
         colorClass="text-calc-dilution"
         onCalculate={calculate}
