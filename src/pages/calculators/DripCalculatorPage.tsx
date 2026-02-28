@@ -127,39 +127,42 @@ const DripCalculatorPage = () => {
 
         {/* Time Input */}
         <div className="space-y-2">
-          <Label htmlFor="time">Tempo de Infusão</Label>
-          <div className="flex gap-2">
-            <Input
-              id="time"
-              type="number"
-              placeholder={timeUnit === 'hours' ? 'Ex: 8' : 'Ex: 120'}
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              min="0"
-              step={timeUnit === 'hours' ? '0.5' : '1'}
-              className="flex-1"
-            />
-            <RadioGroup
-              value={timeUnit}
-              onValueChange={(value) => setTimeUnit(value as TimeUnit)}
-              className="flex gap-2"
+          <Label>Tempo de Infusão</Label>
+          <div className="flex gap-2 mb-2">
+            <button
+              type="button"
+              onClick={() => setTimeUnit('hours')}
+              className={`flex-1 py-2 px-3 rounded-md text-sm font-medium border transition-colors ${
+                timeUnit === 'hours'
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-background text-foreground border-input hover:bg-accent'
+              }`}
             >
-              <div className="flex items-center space-x-1">
-                <RadioGroupItem value="hours" id="hours" />
-                <Label htmlFor="hours" className="font-normal cursor-pointer text-sm">
-                  Horas
-                </Label>
-              </div>
-              <div className="flex items-center space-x-1">
-                <RadioGroupItem value="minutes" id="minutes" />
-                <Label htmlFor="minutes" className="font-normal cursor-pointer text-sm">
-                  Minutos
-                </Label>
-              </div>
-            </RadioGroup>
+              Horas
+            </button>
+            <button
+              type="button"
+              onClick={() => setTimeUnit('minutes')}
+              className={`flex-1 py-2 px-3 rounded-md text-sm font-medium border transition-colors ${
+                timeUnit === 'minutes'
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-background text-foreground border-input hover:bg-accent'
+              }`}
+            >
+              Minutos
+            </button>
           </div>
+          <Input
+            id="time"
+            type="number"
+            placeholder={timeUnit === 'hours' ? 'Ex: 8' : 'Ex: 120'}
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            min="0"
+            step={timeUnit === 'hours' ? '0.5' : '1'}
+          />
           <p className="text-xs text-muted-foreground">
-            Tempo prescrito pelo médico para a infusão completa
+            Tempo prescrito pelo médico para a infusão completa ({timeUnit === 'hours' ? 'em horas' : 'em minutos'})
           </p>
         </div>
       </CalculatorLayout>
