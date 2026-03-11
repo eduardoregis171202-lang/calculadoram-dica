@@ -8,6 +8,7 @@ import { Shield, Sparkles, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 
+// Force rebuild - calculadora de medicamentos movida para especializadas
 const Index = () => {
   const essentialCalcs = getCalculatorsByCategory('essential');
   const specializedCalcs = getCalculatorsByCategory('specialized');
@@ -72,7 +73,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Essential Calculators */}
+      {/* Essential Calculators - Only Gotejamento and Balanço Hídrico */}
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-4">
           <h2 className="text-lg font-semibold text-foreground">Calculadoras Essenciais</h2>
