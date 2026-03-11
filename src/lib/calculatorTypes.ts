@@ -23,6 +23,7 @@ export interface CalculatorInfo {
   category: 'essential' | 'specialized' | 'assessment';
 }
 
+// Updated: removed medicamentos from essential category
 export const calculators: CalculatorInfo[] = [
   {
     id: 'drip',
@@ -34,17 +35,6 @@ export const calculators: CalculatorInfo[] = [
     bgColorClass: 'bg-calc-drip/10',
     route: '/calculadoras/gotejamento',
     category: 'essential',
-  },
-  {
-    id: 'medicamentos',
-    name: 'Cálculo de Medicamentos',
-    shortName: 'Medicamentos',
-    description: 'Assistente para cálculo de medicamentos',
-    icon: FlaskConical,
-    colorClass: 'text-calc-dilution',
-    bgColorClass: 'bg-calc-dilution/10',
-    route: '/calculadoras/diluicao',
-    category: 'specialized',
   },
   {
     id: 'hydro',
@@ -77,6 +67,17 @@ export const calculators: CalculatorInfo[] = [
     colorClass: 'text-calc-oxygen',
     bgColorClass: 'bg-calc-oxygen/10',
     route: '/calculadoras/oxigenio',
+    category: 'specialized',
+  },
+  {
+    id: 'medicamentos',
+    name: 'Cálculo de Medicamentos',
+    shortName: 'Medicamentos',
+    description: 'Assistente para cálculo de medicamentos',
+    icon: FlaskConical,
+    colorClass: 'text-calc-dilution',
+    bgColorClass: 'bg-calc-dilution/10',
+    route: '/calculadoras/diluicao',
     category: 'specialized',
   },
   {
