@@ -149,9 +149,9 @@ const DilutionCalculatorPage = () => {
             </p>
           </div>
 
-          {/* Volume de Diluição */}
+          {/* Volume para Reconstituição */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">Volume de Diluição (mL)</label>
+            <label className="text-sm font-medium text-foreground">Volume de Reconstituição (mL)</label>
             <input
               type="number"
               inputMode="decimal"
