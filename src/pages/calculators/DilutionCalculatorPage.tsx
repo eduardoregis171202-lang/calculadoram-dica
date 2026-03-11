@@ -1,86 +1,174 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { FlaskConical, ArrowLeft } from 'lucide-react';
+import { FlaskConical, AlertTriangle, Info, Scale } from 'lucide-react';
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
-interface MedicationPreset {
-  name: string;
-  totalContent: number;
-  dilutionVolume: number;
-}
-
-const medicationPresets: MedicationPreset[] = [
-  { name: 'Ampicilina 500mg', totalContent: 500, dilutionVolume: 5 },
-  { name: 'Ampicilina 1g', totalContent: 1000, dilutionVolume: 10 },
-  { name: 'Ceftriaxona 1g', totalContent: 1000, dilutionVolume: 10 },
-  { name: 'Vancomicina 500mg', totalContent: 500, dilutionVolume: 10 },
-  { name: 'Oxacilina 500mg', totalContent: 500, dilutionVolume: 5 },
-  { name: 'Penicilina Cristalina 5MUI', totalContent: 5000000, dilutionVolume: 10 },
+// Unit options
+const UNITS = [
+  { value: 'g', label: 'g (Gramas)' },
+  { value: 'mg', label: 'mg (Miligramas)' },
+  { value: 'mcg', label: 'mcg (Microgramas)' },
+  { value: 'UI', label: 'UI (Unidades Internacionais)' },
+  { value: 'mEq', label: 'mEq (Miliequivalentes)' },
 ];
 
-const DilutionCalculatorPage = () => {
-  const [medSearch, setMedSearch] = useState('');
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [totalContent, setTotalContent] = useState('');
-  const [dilutionVolume, setDilutionVolume] = useState('');
-  const [prescribedDose, setPrescribedDose] = useState('');
-  const [result, setResult] = useState<number | null>(null);
-  const { addEntry } = useCalculatorHistory();
-  const suggestionsRef = useRef<HTMLDivElement>(null);
+// Unit families
+const MASS_UNITS = ['g', 'mg', 'mcg'];
 
-  const filteredMeds = medicationPresets.filter(m =>
-    m.name.toLowerCase().includes(medSearch.toLowerCase())
-  );
+function normalizarParaMg(valor: number, unidade: string): number {
+  if (unidade === 'g') return valor * 1000;
+  if (unidade === 'mcg') return valor / 1000;
+  return valor; // mg, UI, mEq — return as-is
+}
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (suggestionsRef.current && !suggestionsRef.current.contains(e.target as Node)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+function saoUnidadesCompativeis(u1: string, u2: string): boolean {
+  const isMass1 = MASS_UNITS.includes(u1);
+  const isMass2 = MASS_UNITS.includes(u2);
+  if (isMass1 && isMass2) return true;
+  if (u1 === u2) return true; // UI/UI or mEq/mEq
+  return false;
+}
 
-  const selectMed = (med: MedicationPreset) => {
-    setMedSearch(med.name);
-    setTotalContent(med.totalContent.toString());
-    setDilutionVolume(med.dilutionVolume.toString());
-    setShowSuggestions(false);
-    setResult(null);
+interface CalcResult {
+  volumeFinal: number;
+  formatted: string;
+  alertaRediluicao: boolean;
+}
+
+function calcularVolumeExato(
+  dosePrescrita: number,
+  unidadePrescrita: string,
+  concentracaoDisponivel: number,
+  unidadeDisponivel: string,
+  volumeDisponivel: number,
+  pesoPaciente: number | null,
+  dosePerKg: boolean
+): CalcResult | { error: string } {
+  // Incompatibility check
+  if (!saoUnidadesCompativeis(unidadePrescrita, unidadeDisponivel)) {
+    return { error: 'Unidades incompatíveis. Impossível converter massa para UI ou mEq diretamente.' };
+  }
+
+  let doseNorm: number;
+  let concNorm: number;
+
+  const isMass = MASS_UNITS.includes(unidadePrescrita);
+  if (isMass) {
+    doseNorm = normalizarParaMg(dosePrescrita, unidadePrescrita);
+    concNorm = normalizarParaMg(concentracaoDisponivel, unidadeDisponivel);
+  } else {
+    doseNorm = dosePrescrita;
+    concNorm = concentracaoDisponivel;
+  }
+
+  // Pediatric: multiply dose by weight
+  if (pesoPaciente && pesoPaciente > 0 && dosePerKg) {
+    doseNorm = doseNorm * pesoPaciente;
+  }
+
+  if (concNorm === 0) return { error: 'Concentração disponível não pode ser zero.' };
+
+  const volumeFinal = (doseNorm * volumeDisponivel) / concNorm;
+
+  // Safe rounding
+  let rounded: number;
+  if (volumeFinal >= 1) {
+    rounded = Math.round(volumeFinal * 10) / 10;
+  } else {
+    rounded = Math.round(volumeFinal * 100) / 100;
+  }
+
+  // Format with leading zero
+  const formatted = rounded < 1 && rounded > 0
+    ? rounded.toFixed(2)
+    : rounded >= 1
+      ? rounded.toFixed(1)
+      : '0';
+
+  return {
+    volumeFinal: rounded,
+    formatted,
+    alertaRediluicao: rounded < 0.1 && rounded > 0,
   };
+}
 
-  const calculate = () => {
-    const total = parseFloat(totalContent);
-    const volume = parseFloat(dilutionVolume);
-    const dose = parseFloat(prescribedDose);
+const DilutionCalculatorPage = () => {
+  const [dosePrescrita, setDosePrescrita] = useState('');
+  const [unidadePrescrita, setUnidadePrescrita] = useState('mg');
+  const [concentracaoDisponivel, setConcentracaoDisponivel] = useState('');
+  const [unidadeDisponivel, setUnidadeDisponivel] = useState('mg');
+  const [volumeDisponivel, setVolumeDisponivel] = useState('');
+  const [pesoPaciente, setPesoPaciente] = useState('');
+  const [dosePerKg, setDosePerKg] = useState(false);
+  const [result, setResult] = useState<CalcResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const { addEntry } = useCalculatorHistory();
 
-    if (!total || !volume || !dose || total <= 0 || volume <= 0 || dose <= 0) return;
+  const handleCalculate = () => {
+    setResult(null);
+    setError(null);
 
-    // Regra de três: resultado = (dose × volume) / conteúdo total
-    const res = (dose * volume) / total;
-    const rounded = Math.round(res * 100) / 100;
-    setResult(rounded);
+    const dose = parseFloat(dosePrescrita);
+    const conc = parseFloat(concentracaoDisponivel);
+    const vol = parseFloat(volumeDisponivel);
+    const peso = pesoPaciente ? parseFloat(pesoPaciente) : null;
 
+    if (!dose || dose <= 0 || !conc || conc <= 0 || !vol || vol <= 0) {
+      setError('Preencha todos os campos obrigatórios com valores maiores que zero.');
+      return;
+    }
+
+    if (dosePerKg && (!peso || peso <= 0)) {
+      setError('Informe o peso do paciente para cálculo por kg.');
+      return;
+    }
+
+    const res = calcularVolumeExato(dose, unidadePrescrita, conc, unidadeDisponivel, vol, peso, dosePerKg);
+
+    if ('error' in res) {
+      setError(res.error);
+      return;
+    }
+
+    setResult(res);
     addEntry(
-      'dilution',
+      'medicamentos',
       'Cálculo de Medicamentos',
-      { totalContent: total, dilutionVolume: volume, prescribedDose: dose },
-      `${rounded} mL`
+      {
+        dosePrescrita: dose,
+        unidadePrescrita,
+        concentracaoDisponivel: conc,
+        unidadeDisponivel,
+        volumeDisponivel: vol,
+        ...(peso ? { pesoPaciente: peso } : {}),
+      },
+      `${res.formatted} mL`
     );
   };
 
-  const clear = () => {
-    setMedSearch('');
-    setTotalContent('');
-    setDilutionVolume('');
-    setPrescribedDose('');
+  const handleClear = () => {
+    setDosePrescrita('');
+    setUnidadePrescrita('mg');
+    setConcentracaoDisponivel('');
+    setUnidadeDisponivel('mg');
+    setVolumeDisponivel('');
+    setPesoPaciente('');
+    setDosePerKg(false);
     setResult(null);
+    setError(null);
   };
 
   const isValid =
-    totalContent && dilutionVolume && prescribedDose &&
-    parseFloat(totalContent) > 0 && parseFloat(dilutionVolume) > 0 && parseFloat(prescribedDose) > 0;
+    dosePrescrita && concentracaoDisponivel && volumeDisponivel &&
+    parseFloat(dosePrescrita) > 0 && parseFloat(concentracaoDisponivel) > 0 && parseFloat(volumeDisponivel) > 0;
+
+  const inputClass =
+    'w-full h-12 px-4 rounded-lg border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none';
+
+  const selectClass =
+    'w-full h-12 px-3 rounded-lg border border-border bg-background text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors';
 
   return (
     <MainLayout title="Medicamentos" showBackButton>
@@ -93,105 +181,118 @@ const DilutionCalculatorPage = () => {
           <div>
             <h1 className="text-xl font-bold text-foreground">Cálculo de Medicamentos</h1>
             <p className="text-sm text-muted-foreground mt-0.5">
-              Assistente para cálculo de medicamentos
+              Dosagem e volume exato para medicamentos injetáveis e orais
             </p>
           </div>
         </div>
 
         {/* Form Card */}
         <div className="bg-card rounded-xl border border-border shadow-sm p-5 space-y-5">
-          {/* Medicamento - Autocomplete text input */}
-          <div className="space-y-1.5 relative" ref={suggestionsRef}>
-            <label className="text-sm font-medium text-foreground">Medicamento (opcional)</label>
-            <input
-              type="text"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-              placeholder="Selecione ou insira manualmente"
-              value={medSearch}
-              onChange={(e) => {
-                setMedSearch(e.target.value);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => setShowSuggestions(true)}
-            />
-            {showSuggestions && medSearch.length > 0 && filteredMeds.length > 0 && (
-              <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-popover border border-border rounded-lg shadow-md max-h-48 overflow-y-auto">
-                {filteredMeds.map((med) => (
-                  <button
-                    key={med.name}
-                    type="button"
-                    className="w-full text-left px-4 py-3 text-sm hover:bg-accent/10 transition-colors text-foreground"
-                    onClick={() => selectMed(med)}
-                  >
-                    {med.name}
-                  </button>
-                ))}
-              </div>
-            )}
-            <p className="text-xs text-muted-foreground">
-              Digite o nome do medicamento para buscar
-            </p>
-          </div>
-
-          {/* Conteúdo Total */}
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">Conteúdo Total do Frasco (mg)</label>
-            <input
-              type="number"
-              inputMode="decimal"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-              placeholder="Ex: 500"
-              value={totalContent}
-              onChange={(e) => setTotalContent(e.target.value)}
-            />
-            <p className="text-xs text-muted-foreground">
-              Quantidade total do medicamento no frasco conforme bula
-            </p>
-          </div>
-
-          {/* Volume para Reconstituição */}
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">Volume de Reconstituição (mL)</label>
-            <input
-              type="number"
-              inputMode="decimal"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-              placeholder="Ex: 5"
-              value={dilutionVolume}
-              onChange={(e) => setDilutionVolume(e.target.value)}
-            />
-            <p className="text-xs text-muted-foreground">
-              Volume de diluente a ser adicionado
-            </p>
-          </div>
-
           {/* Dose Prescrita */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">Dose Prescrita (mg)</label>
+            <label className="text-sm font-medium text-foreground">Dose Prescrita</label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                inputMode="decimal"
+                className={inputClass + ' flex-1'}
+                placeholder="Ex: 500"
+                value={dosePrescrita}
+                onChange={(e) => setDosePrescrita(e.target.value)}
+              />
+              <select
+                className={selectClass + ' w-32 flex-shrink-0'}
+                value={unidadePrescrita}
+                onChange={(e) => setUnidadePrescrita(e.target.value)}
+              >
+                {UNITS.map((u) => (
+                  <option key={u.value} value={u.value}>{u.value}</option>
+                ))}
+              </select>
+            </div>
+            <p className="text-xs text-muted-foreground">Dose que o médico prescreveu</p>
+          </div>
+
+          {/* Concentração Disponível */}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground">Concentração Disponível</label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                inputMode="decimal"
+                className={inputClass + ' flex-1'}
+                placeholder="Ex: 250"
+                value={concentracaoDisponivel}
+                onChange={(e) => setConcentracaoDisponivel(e.target.value)}
+              />
+              <select
+                className={selectClass + ' w-32 flex-shrink-0'}
+                value={unidadeDisponivel}
+                onChange={(e) => setUnidadeDisponivel(e.target.value)}
+              >
+                {UNITS.map((u) => (
+                  <option key={u.value} value={u.value}>{u.value}</option>
+                ))}
+              </select>
+            </div>
+            <p className="text-xs text-muted-foreground">Concentração do medicamento disponível (conforme rótulo)</p>
+          </div>
+
+          {/* Volume Disponível */}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground">Volume Disponível (mL)</label>
             <input
               type="number"
               inputMode="decimal"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-              placeholder="Ex: 250"
-              value={prescribedDose}
-              onChange={(e) => setPrescribedDose(e.target.value)}
+              className={inputClass}
+              placeholder="Ex: 10"
+              value={volumeDisponivel}
+              onChange={(e) => setVolumeDisponivel(e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Dose que o médico prescreveu para o paciente
-            </p>
+            <p className="text-xs text-muted-foreground">Volume total do frasco ou ampola em mL</p>
+          </div>
+
+          {/* Pediatric toggle */}
+          <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Scale className="w-4 h-4 text-muted-foreground" />
+                <Label htmlFor="dose-kg" className="text-sm font-medium text-foreground cursor-pointer">
+                  Dose por Kg (Pediátrico)
+                </Label>
+              </div>
+              <Switch
+                id="dose-kg"
+                checked={dosePerKg}
+                onCheckedChange={setDosePerKg}
+              />
+            </div>
+            {dosePerKg && (
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-foreground">Peso do Paciente (kg)</label>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  className={inputClass}
+                  placeholder="Ex: 12.5"
+                  value={pesoPaciente}
+                  onChange={(e) => setPesoPaciente(e.target.value)}
+                />
+              </div>
+            )}
           </div>
 
           {/* Buttons */}
           <div className="flex gap-3 pt-2">
             <button
-              onClick={calculate}
+              onClick={handleCalculate}
               disabled={!isValid}
               className="flex-1 h-12 rounded-lg bg-primary text-primary-foreground font-bold text-base transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Calcular
             </button>
             <button
-              onClick={clear}
+              onClick={handleClear}
               className="h-12 px-6 rounded-lg border border-border bg-card text-foreground font-medium text-base transition-colors hover:bg-muted"
             >
               Limpar
@@ -199,36 +300,54 @@ const DilutionCalculatorPage = () => {
           </div>
         </div>
 
+        {/* Error */}
+        {error && (
+          <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-4 flex gap-3 items-start animate-fade-in">
+            <AlertTriangle className="w-5 h-5 text-destructive mt-0.5 flex-shrink-0" />
+            <p className="text-sm font-medium text-destructive">{error}</p>
+          </div>
+        )}
+
         {/* Result Card */}
-        {result !== null && (
-          <div className="bg-primary/5 border-2 border-primary/20 rounded-xl p-6 text-center space-y-2 animate-fade-in">
+        {result && (
+          <div className="bg-primary/10 border-2 border-primary/30 rounded-xl p-6 text-center space-y-2 animate-fade-in">
             <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Resultado</p>
-            <p className="text-5xl font-bold text-primary">{result} mL</p>
+            <p className="text-5xl font-bold text-primary">{result.formatted} mL</p>
             <p className="text-base font-semibold text-foreground mt-3">
-              ASPIRE EXATAMENTE <span className="text-primary font-bold">{result} mL</span> DA SOLUÇÃO
+              Aspire exatamente <span className="text-primary font-bold">{result.formatted} mL</span> da medicação.
             </p>
           </div>
         )}
 
-        {/* Warnings */}
-        <div className="bg-warning/5 border border-warning/20 rounded-xl p-4 space-y-2">
+        {/* Redilution alert */}
+        {result?.alertaRediluicao && (
+          <div className="bg-warning/10 border border-warning/30 rounded-xl p-4 flex gap-3 items-start animate-fade-in">
+            <AlertTriangle className="w-5 h-5 text-warning mt-0.5 flex-shrink-0" />
+            <p className="text-sm font-medium text-warning">
+              Volume muito pequeno para aspiração segura ({'<'} 0.1 mL). Recomenda-se protocolo de rediluição pediátrica.
+            </p>
+          </div>
+        )}
+
+        {/* Info */}
+        <div className="bg-info/5 border border-info/20 rounded-xl p-4">
           <div className="flex gap-2 items-start">
-            <span className="text-warning mt-0.5">⚠</span>
-            <div className="space-y-1 text-sm text-foreground">
-              <p>Sempre verifique a bula do medicamento para orientações específicas.</p>
-              <p>Os volumes variam conforme protocolo institucional e via de administração.</p>
-              <p>Confirme a compatibilidade do diluente com o medicamento.</p>
+            <Info className="w-4 h-4 text-info mt-0.5 flex-shrink-0" />
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p>Fórmula: Volume = (Dose Prescrita × Volume Disponível) ÷ Concentração Disponível</p>
+              <p>Unidades de massa (g, mg, mcg) são convertidas automaticamente para mg antes do cálculo.</p>
             </div>
           </div>
         </div>
 
-        {/* Formula info */}
-        <div className="bg-info/5 border border-info/20 rounded-xl p-4">
+        {/* Safety warning */}
+        <div className="bg-warning/5 border border-warning/20 rounded-xl p-4">
           <div className="flex gap-2 items-start">
-            <span className="text-info mt-0.5">ℹ</span>
-            <p className="text-sm text-muted-foreground">
-              Fórmula: Resultado = (Dose Prescrita × Volume de Reconstituição) ÷ Conteúdo Total do Frasco
-            </p>
+            <AlertTriangle className="w-4 h-4 text-warning mt-0.5 flex-shrink-0" />
+            <div className="space-y-1 text-sm text-foreground">
+              <p>Sempre confirme o cálculo antes da administração.</p>
+              <p>Verifique compatibilidade, via de administração e velocidade de infusão.</p>
+            </div>
           </div>
         </div>
       </div>
