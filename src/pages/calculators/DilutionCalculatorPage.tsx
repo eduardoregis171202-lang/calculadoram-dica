@@ -227,7 +227,7 @@ const DilutionCalculatorPage = () => {
           <div className="flex gap-2 items-start">
             <span className="text-info mt-0.5">ℹ</span>
             <p className="text-sm text-muted-foreground">
-              Fórmula: Resultado = (Dose Prescrita × Volume de Diluição) ÷ Conteúdo Total do Frasco
+              Fórmula: Resultado = (Dose Prescrita × Volume de Reconstituição) ÷ Conteúdo Total do Frasco
             </p>
           </div>
         </div>
