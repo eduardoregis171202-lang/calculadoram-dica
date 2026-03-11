@@ -210,7 +210,7 @@ const DilutionCalculatorPage = () => {
                 ))}
               </select>
             </div>
-            <p className="text-xs text-muted-foreground">Dose que o médico prescreveu</p>
+            <p className="text-xs text-muted-foreground">Dose solicitada na prescrição médica (ex: Dipirona 1g → digite 1 e selecione "g")</p>
           </div>
 
           {/* Concentração Disponível */}
