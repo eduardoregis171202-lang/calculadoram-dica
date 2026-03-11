@@ -37,9 +37,9 @@ export const calculators: CalculatorInfo[] = [
   },
   {
     id: 'dilution',
-    name: 'Conversor de Diluição',
-    shortName: 'Diluição',
-    description: 'Assistente para a diluição de medicamentos',
+    name: 'Cálculo de Medicamentos',
+    shortName: 'Medicamentos',
+    description: 'Assistente para cálculo de medicamentos',
     icon: FlaskConical,
     colorClass: 'text-calc-dilution',
     bgColorClass: 'bg-calc-dilution/10',
