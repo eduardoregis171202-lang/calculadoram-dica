@@ -235,7 +235,7 @@ const DilutionCalculatorPage = () => {
                 ))}
               </select>
             </div>
-            <p className="text-xs text-muted-foreground">Concentração do medicamento disponível (conforme rótulo)</p>
+            <p className="text-xs text-muted-foreground">Quantidade de princípio ativo no frasco/ampola conforme rótulo (ex: Dipirona 500mg/mL → digite 500)</p>
           </div>
 
           {/* Volume Disponível */}
