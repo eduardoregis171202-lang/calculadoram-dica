@@ -64,8 +64,8 @@ const DilutionCalculatorPage = () => {
 
     addEntry(
       'dilution',
-      'Conversor de Diluição',
-      { medication: medSearch || 'Manual', totalContent: total, dilutionVolume: volume, prescribedDose: dose },
+      'Cálculo de Medicamentos',
+      { totalContent: total, dilutionVolume: volume, prescribedDose: dose },
       `${rounded} mL`
     );
   };
