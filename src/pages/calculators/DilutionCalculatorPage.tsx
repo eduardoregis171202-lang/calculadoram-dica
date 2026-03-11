@@ -210,7 +210,7 @@ const DilutionCalculatorPage = () => {
                 ))}
               </select>
             </div>
-            <p className="text-xs text-muted-foreground">Dose que o médico prescreveu</p>
+            <p className="text-xs text-muted-foreground">Dose solicitada na prescrição médica (ex: Dipirona 1g → digite 1 e selecione "g")</p>
           </div>
 
           {/* Concentração Disponível */}
@@ -235,7 +235,7 @@ const DilutionCalculatorPage = () => {
                 ))}
               </select>
             </div>
-            <p className="text-xs text-muted-foreground">Concentração do medicamento disponível (conforme rótulo)</p>
+            <p className="text-xs text-muted-foreground">Quantidade de princípio ativo no frasco/ampola conforme rótulo (ex: Dipirona 500mg/mL → digite 500)</p>
           </div>
 
           {/* Volume Disponível */}
@@ -249,7 +249,7 @@ const DilutionCalculatorPage = () => {
               value={volumeDisponivel}
               onChange={(e) => setVolumeDisponivel(e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">Volume total do frasco ou ampola em mL</p>
+            <p className="text-xs text-muted-foreground">Volume em mL que contém a concentração acima (ex: Dipirona 500mg/mL → digite 1)</p>
           </div>
 
           {/* Pediatric toggle */}
