@@ -83,7 +83,7 @@ const DilutionCalculatorPage = () => {
     parseFloat(totalContent) > 0 && parseFloat(dilutionVolume) > 0 && parseFloat(prescribedDose) > 0;
 
   return (
-    <MainLayout title="Diluição" showBackButton>
+    <MainLayout title="Medicamentos" showBackButton>
       <div className="max-w-lg mx-auto space-y-5 animate-fade-in pb-8">
         {/* Header */}
         <div className="flex items-start gap-4 pt-2">
@@ -91,9 +91,9 @@ const DilutionCalculatorPage = () => {
             <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">Conversor de Diluição</h1>
+            <h1 className="text-xl font-bold text-foreground">Cálculo de Medicamentos</h1>
             <p className="text-sm text-muted-foreground mt-0.5">
-              Assistente para rediluição de medicamentos em pó
+              Assistente para cálculo de medicamentos
             </p>
           </div>
         </div>
