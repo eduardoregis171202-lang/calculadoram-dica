@@ -44,7 +44,7 @@ export const calculators: CalculatorInfo[] = [
     colorClass: 'text-calc-dilution',
     bgColorClass: 'bg-calc-dilution/10',
     route: '/calculadoras/diluicao',
-    category: 'essential',
+    category: 'specialized',
   },
   {
     id: 'hydro',
