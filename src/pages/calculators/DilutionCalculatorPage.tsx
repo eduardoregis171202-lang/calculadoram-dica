@@ -215,8 +215,8 @@ const DilutionCalculatorPage = () => {
           <div className="flex gap-2 items-start">
             <span className="text-warning mt-0.5">⚠</span>
             <div className="space-y-1 text-sm text-foreground">
-              <p>Sempre verifique a bula do medicamento para orientações específicas de diluição.</p>
-              <p>As diluições variam conforme protocolo institucional e via de administração.</p>
+              <p>Sempre verifique a bula do medicamento para orientações específicas.</p>
+              <p>Os volumes variam conforme protocolo institucional e via de administração.</p>
               <p>Confirme a compatibilidade do diluente com o medicamento.</p>
             </div>
           </div>
