@@ -149,9 +149,9 @@ const DilutionCalculatorPage = () => {
             </p>
           </div>
 
-          {/* Volume de Diluição */}
+          {/* Volume para Reconstituição */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">Volume de Diluição (mL)</label>
+            <label className="text-sm font-medium text-foreground">Volume de Reconstituição (mL)</label>
             <input
               type="number"
               inputMode="decimal"
@@ -215,8 +215,8 @@ const DilutionCalculatorPage = () => {
           <div className="flex gap-2 items-start">
             <span className="text-warning mt-0.5">⚠</span>
             <div className="space-y-1 text-sm text-foreground">
-              <p>Sempre verifique a bula do medicamento para orientações específicas de diluição.</p>
-              <p>As diluições variam conforme protocolo institucional e via de administração.</p>
+              <p>Sempre verifique a bula do medicamento para orientações específicas.</p>
+              <p>Os volumes variam conforme protocolo institucional e via de administração.</p>
               <p>Confirme a compatibilidade do diluente com o medicamento.</p>
             </div>
           </div>
@@ -227,7 +227,7 @@ const DilutionCalculatorPage = () => {
           <div className="flex gap-2 items-start">
             <span className="text-info mt-0.5">ℹ</span>
             <p className="text-sm text-muted-foreground">
-              Fórmula: Resultado = (Dose Prescrita × Volume de Diluição) ÷ Conteúdo Total do Frasco
+              Fórmula: Resultado = (Dose Prescrita × Volume de Reconstituição) ÷ Conteúdo Total do Frasco
             </p>
           </div>
         </div>

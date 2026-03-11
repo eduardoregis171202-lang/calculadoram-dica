@@ -37,13 +37,13 @@ const ebooks: EbookInfo[] = [
     topics: ['Fórmulas de gotejamento', 'Equipo macro vs micro', 'Exemplos práticos'],
   },
   {
-    id: 'dilution',
-    title: 'Manual de Rediluição',
-    description: 'Guia completo para rediluição de medicamentos em pó',
+    id: 'medicamentos',
+    title: 'Manual de Medicamentos',
+    description: 'Guia completo para cálculo de medicamentos',
     icon: FlaskConical,
     colorClass: 'text-calc-dilution',
     bgColorClass: 'bg-calc-dilution/10',
-    topics: ['Princípios de diluição', 'Medicamentos comuns', 'Cálculos de concentração'],
+    topics: ['Princípios de cálculo', 'Medicamentos comuns', 'Cálculos de concentração'],
   },
   {
     id: 'hydro',
