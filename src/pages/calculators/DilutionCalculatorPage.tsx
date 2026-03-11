@@ -249,7 +249,7 @@ const DilutionCalculatorPage = () => {
               value={volumeDisponivel}
               onChange={(e) => setVolumeDisponivel(e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">Volume total do frasco ou ampola em mL</p>
+            <p className="text-xs text-muted-foreground">Volume em mL que contém a concentração acima (ex: Dipirona 500mg/mL → digite 1)</p>
           </div>
 
           {/* Pediatric toggle */}
