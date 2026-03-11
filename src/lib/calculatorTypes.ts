@@ -78,7 +78,7 @@ export const calculators: CalculatorInfo[] = [
     colorClass: 'text-calc-dilution',
     bgColorClass: 'bg-calc-dilution/10',
     route: '/calculadoras/diluicao',
-    category: 'specialized',
+    category: 'essential',
   },
   {
     id: 'insulin',
