@@ -36,7 +36,7 @@ export const calculators: CalculatorInfo[] = [
     category: 'essential',
   },
   {
-    id: 'dilution',
+    id: 'medicamentos',
     name: 'Cálculo de Medicamentos',
     shortName: 'Medicamentos',
     description: 'Assistente para cálculo de medicamentos',
