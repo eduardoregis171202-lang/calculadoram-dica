@@ -5,6 +5,10 @@ import { useCalculatorHistory } from '@/hooks/useCalculatorHistory';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
+function parseNumericValue(value: string): number {
+  return parseFloat(value.replace(',', '.').trim());
+}
+
 // Unit options
 const UNITS = [
   { value: 'g', label: 'g (Gramas)' },
@@ -110,10 +114,10 @@ const DilutionCalculatorPage = () => {
     setResult(null);
     setError(null);
 
-    const dose = parseFloat(dosePrescrita);
-    const conc = parseFloat(concentracaoDisponivel);
-    const vol = parseFloat(volumeDisponivel);
-    const peso = pesoPaciente ? parseFloat(pesoPaciente) : null;
+    const dose = parseNumericValue(dosePrescrita);
+    const conc = parseNumericValue(concentracaoDisponivel);
+    const vol = parseNumericValue(volumeDisponivel);
+    const peso = pesoPaciente ? parseNumericValue(pesoPaciente) : null;
 
     if (!dose || dose <= 0 || !conc || conc <= 0 || !vol || vol <= 0) {
       setError('Preencha todos os campos obrigatórios com valores maiores que zero.');
@@ -162,23 +166,25 @@ const DilutionCalculatorPage = () => {
 
   const isValid =
     dosePrescrita && concentracaoDisponivel && volumeDisponivel &&
-    parseFloat(dosePrescrita) > 0 && parseFloat(concentracaoDisponivel) > 0 && parseFloat(volumeDisponivel) > 0;
+    parseNumericValue(dosePrescrita) > 0 && parseNumericValue(concentracaoDisponivel) > 0 && parseNumericValue(volumeDisponivel) > 0;
 
   const inputClass =
-    'w-full h-12 px-4 rounded-lg border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none';
+    'w-full min-w-0 h-12 px-4 rounded-lg border border-input bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors';
 
   const selectClass =
-    'w-full h-12 px-3 rounded-lg border border-border bg-background text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors';
+    'w-full h-12 rounded-lg border border-input bg-background px-3 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors';
+
+  const fieldRowClass = 'grid grid-cols-[minmax(0,1fr)_5.5rem] gap-2 sm:grid-cols-[minmax(0,1fr)_6.5rem]';
 
   return (
     <MainLayout title="Medicamentos" showBackButton>
       <div className="max-w-lg mx-auto space-y-5 animate-fade-in pb-8">
         {/* Header */}
         <div className="flex items-start gap-4 pt-2">
-          <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-900/30">
-            <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+          <div className="p-3 rounded-xl bg-calc-dilution/10">
+            <FlaskConical className="w-8 h-8 text-calc-dilution" />
           </div>
-          <div>
+          <div className="min-w-0">
             <h1 className="text-xl font-bold text-foreground">Cálculo de Medicamentos</h1>
             <p className="text-sm text-muted-foreground mt-0.5">
               Dosagem e volume exato para medicamentos injetáveis e orais
@@ -191,17 +197,17 @@ const DilutionCalculatorPage = () => {
           {/* Dose Prescrita */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">Dose Prescrita</label>
-            <div className="flex gap-2">
+            <div className={fieldRowClass}>
               <input
-                type="number"
+                type="text"
                 inputMode="decimal"
-                className={inputClass + ' flex-1'}
+                className={inputClass}
                 placeholder="Ex: 500"
                 value={dosePrescrita}
                 onChange={(e) => setDosePrescrita(e.target.value)}
               />
               <select
-                className={selectClass + ' w-32 flex-shrink-0'}
+                className={selectClass}
                 value={unidadePrescrita}
                 onChange={(e) => setUnidadePrescrita(e.target.value)}
               >
@@ -216,17 +222,17 @@ const DilutionCalculatorPage = () => {
           {/* Concentração Disponível */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">Concentração Disponível</label>
-            <div className="flex gap-2">
+            <div className={fieldRowClass}>
               <input
-                type="number"
+                type="text"
                 inputMode="decimal"
-                className={inputClass + ' flex-1'}
+                className={inputClass}
                 placeholder="Ex: 250"
                 value={concentracaoDisponivel}
                 onChange={(e) => setConcentracaoDisponivel(e.target.value)}
               />
               <select
-                className={selectClass + ' w-32 flex-shrink-0'}
+                className={selectClass}
                 value={unidadeDisponivel}
                 onChange={(e) => setUnidadeDisponivel(e.target.value)}
               >
@@ -242,7 +248,7 @@ const DilutionCalculatorPage = () => {
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">Volume Disponível (mL)</label>
             <input
-              type="number"
+              type="text"
               inputMode="decimal"
               className={inputClass}
               placeholder="Ex: 10"
@@ -257,7 +263,7 @@ const DilutionCalculatorPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Scale className="w-4 h-4 text-muted-foreground" />
-                <Label htmlFor="dose-kg" className="text-sm font-medium text-foreground cursor-pointer">
+                <Label htmlFor="dose-kg" className="min-w-0 text-sm font-medium text-foreground cursor-pointer leading-snug">
                   Dose por Kg (Pediátrico)
                 </Label>
               </div>
@@ -271,7 +277,7 @@ const DilutionCalculatorPage = () => {
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Peso do Paciente (kg)</label>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
                   className={inputClass}
                   placeholder="Ex: 12.5"
@@ -312,7 +318,7 @@ const DilutionCalculatorPage = () => {
         {result && (
           <div className="bg-primary/10 border-2 border-primary/30 rounded-xl p-6 text-center space-y-2 animate-fade-in">
             <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Resultado</p>
-            <p className="text-5xl font-bold text-primary">{result.formatted} mL</p>
+            <p className="text-4xl sm:text-5xl font-bold text-primary break-words">{result.formatted} mL</p>
             <p className="text-base font-semibold text-foreground mt-3">
               Aspire exatamente <span className="text-primary font-bold">{result.formatted} mL</span> da medicação.
             </p>
